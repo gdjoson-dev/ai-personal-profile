@@ -1,0 +1,34 @@
+name: 档案待办 / Profile TODO
+description: 登记需要补充或修订的跨 AI 共享个人档案条目
+title: "[TODO] "
+labels: ["profile-section"]
+body:
+  - type: dropdown
+    id: section
+    attributes:
+      label: 关联章节
+      description: 该待办属于 README 的哪个章节
+      options:
+        - 个人简介与背景
+        - 工作与学习习惯
+        - 沟通风格偏好
+        - 常用工具与技术栈
+        - 项目经验与成果
+        - 长期目标
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: 待办内容
+      description: 需要补充 / 修订的具体条目或说明
+      placeholder: 例如：在"项目经验与成果"中补充 800kW 双向 V2G 系统的量化指标。
+    validations:
+      required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 完成标准
+      options:
+        - label: 已在 README 对应章节更新内容
+        - label: 已提交 PR 并关联本 issue
