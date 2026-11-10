@@ -1,0 +1,94 @@
+name: Daily profile sync
+
+# Open an owner-authored issue titled [SYNC] ..., with the exact README section
+# heading (without ##) on the first line and one or more - bullets below it.
+on:
+  schedule:
+    - cron: '0 8 * * *' # 16:00 Asia/Shanghai
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: read
+
+concurrency: profile-readme-sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO_OWNER: ${{ github.repository_owner }}
+    steps:
+      - name: Append approved profile entries
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import base64
+          import json
+          import os
+          import re
+          from urllib.request import Request, urlopen
+
+          base = f"{os.environ['GITHUB_API_URL']}/repos/{os.environ['GITHUB_REPOSITORY']}"
+          headers = {
+              'Authorization': f"Bearer {os.environ['GH_TOKEN']}",
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json',
+          }
+          owner = os.environ['REPO_OWNER'].casefold()
+          sections = {
+              '个人简介与背景', '工作与学习习惯', '沟通风格偏好',
+              '常用工具与技术栈', '项目经验与成果', '长期目标',
+          }
+
+          def api(path, data=None):
+              body = json.dumps(data).encode() if data is not None else None
+              request = Request(base + path, data=body, headers=headers,
+                                method='PUT' if body is not None else 'GET')
+              with urlopen(request, timeout=30) as response:
+                  return json.load(response)
+
+          current = api('/contents/README.md')
+          readme = base64.b64decode(current['content']).decode('utf-8')
+          parts = re.split(r'(?m)^## (.+)\n', readme)
+          positions = {heading: index + 1 for index, heading in enumerate(parts)
+                       if index % 2 and heading in sections}
+          changed = []
+          page = 1
+          while True:
+              issues = api(f'/issues?state=open&sort=created&direction=asc&per_page=100&page={page}')
+              for issue in issues:
+                  if ('pull_request' in issue or not issue['title'].startswith('[SYNC] ')
+                          or (issue.get('user') or {}).get('login', '').casefold() != owner):
+                      continue
+                  lines = [line.strip() for line in (issue.get('body') or '').splitlines()
+                           if line.strip()]
+                  if len(lines) < 2 or lines[0] not in positions or not all(
+                          line.startswith('- ') and 2 < len(line) <= 502 for line in lines[1:]):
+                      print(f"Skipped issue #{issue['number']}: invalid section or bullets.")
+                      continue
+                  index = positions[lines[0]]
+                  existing = {line.strip() for line in parts[index].splitlines()}
+                  additions = [line for line in dict.fromkeys(lines[1:]) if line not in existing]
+                  if additions:
+                      parts[index] = parts[index].rstrip() + '\n\n' + '\n'.join(additions) + '\n\n'
+                      changed.append(issue['number'])
+              if len(issues) < 100:
+                  break
+              page += 1
+
+          if changed:
+              updated = parts[0] + ''.join(
+                  f'## {parts[i]}\n{parts[i + 1]}' for i in range(1, len(parts), 2))
+              refs = ', '.join(f'#{number}' for number in changed)
+              result = api('/contents/README.md', {
+                  'message': f'Sync approved profile entries from {refs}',
+                  'content': base64.b64encode(updated.encode('utf-8')).decode(),
+                  'sha': current['sha'],
+              })
+              print(result['commit']['html_url'])
+          else:
+              print('No new approved profile entries.')
+          PY
