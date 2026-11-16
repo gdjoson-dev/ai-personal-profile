@@ -28,7 +28,7 @@
 ## 常用工具与技术栈
 
 - 协作与日常：GitHub（账号 gdjoson-dev）、Gmail、Google Drive、Grok Bot 矩阵（含额度雷达、VOC、跨境电商选品、学习流等）。
-- 自动化：Grok Bot 例行任务（晨间邮件简报、周一本周提醒、周五 AI 工具周报、每周新玩法、本仓每日档案同步）。
+- 自动化：Grok Bot 例行任务（晨间邮件简报、周一本周提醒、周一 GitHub 汇总、周五 AI 工具周报、每周新玩法、本仓每日档案同步）。
 - 开发与代理：Cursor / Cloud Agent、浏览器自动化、微信中继（限定入口）。
 - 技术栈按项目再补；本仓本身为 Markdown + Issues / Projects 管理。
 
