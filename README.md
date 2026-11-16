@@ -30,6 +30,7 @@
 - 协作与日常：GitHub（账号 gdjoson-dev）、Gmail、Google Drive、Grok Bot 矩阵（含额度雷达、VOC、跨境电商选品、学习流等）。
 - 自动化：Grok Bot 例行任务（晨间邮件简报、周一本周提醒、周一 GitHub 汇总、周五 AI 工具周报、每周新玩法、本仓每日档案同步）。
 - 开发与代理：Cursor / Cloud Agent、浏览器自动化、微信中继（限定入口）。
+- 版本与追溯：GitHub Issues（含档案待办模板）+ GitHub Actions + commit / revert 回退链路；本仓据此维护跨 AI 档案。
 - 技术栈按项目再补；本仓本身为 Markdown + Issues / Projects 管理。
 
 ## 项目经验与成果
@@ -39,6 +40,7 @@
 - iHaper — 智能硬件 — 43 项 Apple PPID 认证。
 - dodocool — 配件品牌 — 28 项 MFi 认证。
 - 本仓库 [ai-personal-profile](https://github.com/gdjoson-dev/ai-personal-profile) — 跨 AI 共享个人档案 — 进行中。
+- 档案自动化基建（2026-11 本周落地）— GitHub Actions 每日档案同步 + 周一 GitHub 活动汇总，全部改动走 commit 可追溯、可回退。
 
 ## 长期目标
 
@@ -62,3 +64,20 @@
 ```
 
 工作流只读取仓库所有者创建的开放同步 Issue，有新增时才提交到 `main`。同步后可关闭对应 Issue。若要回退同步提交，请先关闭对应 Issue，再用 Git revert 恢复。普通档案待办继续使用 Issues 模板。
+
+## 近期 GitHub 动态（2026-11-16 周报）
+
+- 统计窗口：2026-11-09 17:14 — 2026-11-16 17:14（北京时间；UTC 2026-11-09T09:14:17Z — 2026-11-16T09:14:17Z）。数据经 GitHub API 实测拉取，未使用估算或模拟数据。
+- 新仓库：本仓 `ai-personal-profile` 于 2026-11-09 22:18（北京时间）创建，公开，默认分支 `main`。
+- 本周提交：共 8 次，全部在本仓（按时间倒序，时间为 UTC）：
+  - `d062149` 2026-11-16 00:22 — Update 常用工具与技术栈: add 周一 GitHub 汇总 routine
+  - `6dded5e` 2026-11-10 02:36 — Preserve existing README spacing
+  - `52cbf45` 2026-11-10 02:36 — Document daily profile sync and rollback
+  - `cd99a7d` 2026-11-10 02:34 — Add daily profile sync at 16:00 Beijing time
+  - `3d0948a` 2026-11-10 02:31 — chore: 添加档案待办 Issue 模板 (todo.yml)
+  - `33e4fec` 2026-11-09 14:53 — Fill personal profile sections from verified facts
+  - `1064887` 2026-11-09 14:20 — Initialize personal profile structure
+  - `4f46fde` 2026-11-09 14:18 — Initial commit
+- 变化要点：初始化档案结构并按已核实事实填充各章节；新增档案待办 Issue 模板；上线每日 16:00（北京时间）档案同步工作流并写入回退说明；补充「周一 GitHub 汇总」例行。
+- 其他仓库：账户下另有 3 个私有仓库，本周均无提交；其中 1 个为空仓库（GitHub API 返回 409 Git Repository is empty）。按合规要求，私有仓库细节不写入公开 README。
+- 公开指标：本仓 stars 0 / forks 0 / 开放 Issues 6；无上周同口径快照，不判定增减。归档仓库：无。
