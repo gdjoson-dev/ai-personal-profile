@@ -30,6 +30,7 @@
 - 协作与日常：GitHub（账号 gdjoson-dev）、Gmail、Google Drive、Grok Bot 矩阵（含额度雷达、VOC、跨境电商选品、学习流等）。
 - 自动化：Grok Bot 例行任务（晨间邮件简报、周一本周提醒、周一 GitHub 汇总、周五 AI 工具周报、每周新玩法、本仓每日档案同步）。
 - 开发与代理：Cursor / Cloud Agent、浏览器自动化、微信中继（限定入口）。
+- 协作角色：Grok Bot「主理人」（唯一调度入口）、「操盘手」（信息提炼与内容生产）、「试错参谋」（只读沙盘校验）；2026-11 建立。
 - 版本与追溯：GitHub Issues（含档案待办模板）+ GitHub Actions + commit / revert 回退链路；本仓据此维护跨 AI 档案。
 - 技术栈按项目再补；本仓本身为 Markdown + Issues / Projects 管理。
 
